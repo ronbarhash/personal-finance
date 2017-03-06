@@ -31,15 +31,16 @@
             <div class="navbar-header">
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/events') }}">
                     Personal finance List
                 </a>
             </div>
 
         </div>
     </nav>
-
-    @yield('content')
+    <div class="container"> 
+        @yield('content')
+    </div> 
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

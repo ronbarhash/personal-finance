@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<p><a href="{{ URL::route('events.create') }}" class="btn btn-success">add new</a></p>
 <!-- Текущие задачи -->
   @if (count($events) > 0)
     <div class="panel panel-default">

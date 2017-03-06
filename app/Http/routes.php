@@ -3,31 +3,24 @@
 use App\Event;
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
+
+Route::get('/', function()
+{
+    return Redirect::to('events');
+});
+
+/*Route::get('/', function () {
 
     $events = Event::orderBy('id', 'asc')->get();
     return view('events' ,[
     'events' => $events
     ]);
 
+});*/
+
+Route::group(['middleware' => ['web']], function () {
+    Route::resource('events', 'EventController');
 });
 
 
-Route::post('/events', function (Request $request) {
-
-    $event = new Event;
-    $event->title = $request->title;
-    $event->save();
-
-    return redirect('/');
-
-});
-
- 
-Route::delete('/event/{id}', function ($id) {
-
-    Event::findOrFail($id)->delete();
-    return redirect('/');
-
-});
 
