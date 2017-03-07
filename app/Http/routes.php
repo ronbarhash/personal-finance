@@ -1,25 +1,27 @@
 <?php
 
-use App\Event;
+use App\Record;
 use Illuminate\Http\Request;
 
 
-Route::get('/', function()
-{
-    return Redirect::to('events');
-});
 
-/*Route::get('/', function () {
 
-    $events = Event::orderBy('id', 'asc')->get();
-    return view('events' ,[
-    'events' => $events
-    ]);
+// Route::get('/', function () {
 
-});*/
+//     $records = Record::orderBy('id', 'asc')->get();
+//     return view('records.index' ,[
+//     'records' => $records
+//     ]);
+
+// });
 
 Route::group(['middleware' => ['web']], function () {
-    Route::resource('events', 'EventController');
+	Route::get('/', function() {
+	    return Redirect::to('records');
+	});
+	
+    Route::resource('records', 'RecordController');
+    Route::get('record/{id}', 'RecordController@destroy');
 });
 
 
