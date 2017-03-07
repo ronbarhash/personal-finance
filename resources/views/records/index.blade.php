@@ -15,7 +15,7 @@
       </div>
 
       <div class="panel-body">
-        <table class="table table-striped task-table">
+        <table class="table task-table">
 
           <!-- Заголовок таблицы -->
           <thead>
@@ -26,7 +26,11 @@
           <!-- Тело таблицы -->
           <tbody>
             @foreach ($records as $record)
-              <tr>
+              <tr  class=" @if($record->record_type == 1) table-success
+               @else 
+               table-danger
+               @endif
+               ">
                 <!-- Имя задачи -->
                 <td class="table-text">
                   <div>{{ $record->title }}</div>
@@ -42,12 +46,10 @@
                 </td>
 
                 <td>
-                    <form action="/record/{{ $record->id }}" method="POST">
-                      {{ csrf_field() }}
-                      {{ method_field('DELETE') }}
-
-                      <button>Удалить запись</button>
-                    </form>
+                    {{ Form::open(array('url' => 'records/' . $record->id, 'class' => 'pull-right')) }}
+                      {{ Form::hidden('_method', 'DELETE') }}
+                      {{ Form::submit('Delete', array('class' => 'btn btn-small btn-danger')) }}
+                    {{ Form::close() }}
                 </td>
               </tr>
             @endforeach

@@ -23,6 +23,13 @@
         .fa-btn {
             margin-right: 6px;
         }
+
+        .table-danger {
+            background-color: #f2dede;
+        }
+        .table-success {
+            background-color: #dff0d8;
+        }
     </style>
 </head>
 <body id="app-layout">

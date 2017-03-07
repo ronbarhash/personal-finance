@@ -40,7 +40,7 @@ class RecordController extends Controller
 			$record->record_type = Input::get('record_type');
 			$record->date_of = Input::get('date_of');
 			$record->cost = Input::get('cost');
-			
+
 			$record->save();
 
             // redirect
@@ -48,11 +48,10 @@ class RecordController extends Controller
             return Redirect::to('records');
         }
 	}
-	public function destroy(Request $request, Record $record) {
-		$record = Record::find($id);
-        $record->delete();
+	public function destroy($id) {
 
-       
+		$record = Record::find($id);
+        $record->delete();       
         return Redirect::route('records.index');
 
 	}
