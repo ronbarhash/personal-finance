@@ -11,7 +11,32 @@
   @if (count($records) > 0)
     <div class="panel panel-default">
       <div class="panel-heading">
-        Текущая запись
+        Records
+        <div class="container">
+
+          
+            <div class="col-sm-3 ">
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control" id="from">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>  
+            </div>
+            <div class="col-sm-3 ">
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control" id="to">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>  
+            </div>
+            <div class="col-sm-3 ">
+             <button type="submit" class="btn btn-primary" id="search">Search</button>
+            </div>            
+          
+        </div>
+        
       </div>
 
       <div class="panel-body">
@@ -38,7 +63,7 @@
                 <td class="table-text">
                   <div>{{ $record->cost }}</div>
                 </td>
-                <td class="table-text">
+                <td class="table-text datapicker">
                   <div>{{ $record->record_type }}</div>
                 </td>
                 <td class="table-text">
