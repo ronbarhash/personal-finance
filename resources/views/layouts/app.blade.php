@@ -38,7 +38,7 @@
             <div class="navbar-header">
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/events') }}">
+                <a class="navbar-brand" href="{{ url('/records') }}">
                     Personal finance List
                 </a>
             </div>
@@ -56,20 +56,22 @@
 
   <script>
   $( function() {
-    var dateFormat = "mm/dd/yy",
+    var dateFormat = "yy/mm/dd",
       from = $( "#from" )
         .datepicker({
-          defaultDate: "+1w",
+          dateFormat: dateFormat,
+          defaultDate: "-3w",
           changeMonth: true,
-          numberOfMonths: 3
+          numberOfMonths: 1
         })
         .on( "change", function() {
           to.datepicker( "option", "minDate", getDate( this ) );
         }),
       to = $( "#to" ).datepicker({
+        dateFormat: dateFormat,
         defaultDate: "+1w",
         changeMonth: true,
-        numberOfMonths: 3
+        numberOfMonths: 1
       })
       .on( "change", function() {
         from.datepicker( "option", "maxDate", getDate( this ) );
@@ -90,7 +92,9 @@
 
   } );
   $('#search').on('click', function(){
-        alert('TODO: ajax SQL query');
+       $.post('/records/data',{from:'02.03.2017',to:'09.03.2017'} ).done( function(data){
+        console.log(data);
+       });
     });
   </script> 
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}

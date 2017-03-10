@@ -9,26 +9,73 @@ use App\Http\Controllers\Controller;
 use App\Record;
 use Validator, Input, Redirect, Session; 
 use DB;
+use Carbon\Carbon;
 
 class RecordController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+    	
 
-    
+    	$from = Carbon::now()->subMonth()->formatLocalized('%Y/%m/%d'); 
+		
+		$to = Carbon::now()->formatLocalized('%Y/%m/%d'); 
+		
+
         $income = DB::table('records') 
                 ->where('records.record_type','=',1)
+                ->whereBetween('date_of', [$from, $to])
                 ->sum('records.cost');
         $expense = DB::table('records') 
                 ->where('records.record_type','=',2)
+                ->whereBetween('date_of', [$from, $to])
                 ->sum('records.cost');	        	
                 	
-	    $records = Record::orderBy('id', 'asc')->get();
+	    $records = DB::table('records')->where([
+                   
+                    ['date_of', '>', $from],
+                     ['date_of', '<=', $to]
+                ])->get();
+	    // var_dump($records->get());
 	    return view('records.index' ,[
 	    'records' => $records,
 	    'income' => $income,
-	    'expense' => $expense
+	    'expense' => $expense,
+	    'from' => $from,
+	    'to' => $to
 	    ]);
 
+	}
+	public function show(Request $request) {
+		var_dump($request);
+/*
+    	$from = $request->input('from'); 
+		
+		$to = $request->input('to');
+		
+
+        $income = DB::table('records') 
+                ->where('records.record_type','=',1)
+                ->whereBetween('date_of', [$from, $to])
+                ->sum('records.cost');
+        $expense = DB::table('records') 
+                ->where('records.record_type','=',2)
+                ->whereBetween('date_of', [$from, $to])
+                ->sum('records.cost');	        	
+                	
+	    $records = DB::table('records')->where([
+                   
+                    ['date_of', '>', $from],
+                     ['date_of', '<=', $to]
+                ])->get();
+	    // var_dump($records->get());
+	    return view('records.index' ,[
+	    'records' => $records,
+	    'income' => $income,
+	    'expense' => $expense,
+	    'from' => $from,
+	    'to' => $to
+	    ]);
+*/
 	}
 
 	public function create() {

@@ -13,10 +13,11 @@
       <div class="panel-heading">
         Records
         <div class="container">
-          
-            <div class="col-sm-3 ">
+        {{ Form::open(array('url' => 'records/data' , 'class' => 'pull-right')) }}
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="col-sm-3 ">
                 <div class="input-group date" data-provide="datepicker">
-                    <input type="text" class="form-control" id="from">
+                    <input type="text" class="form-control" id="from" value="{{$from}}">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -24,15 +25,20 @@
             </div>
             <div class="col-sm-3 ">
                 <div class="input-group date" data-provide="datepicker">
-                    <input type="text" class="form-control" id="to">
+                    <input type="text" class="form-control" id="to" value="{{$to}}">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>  
             </div>
-            <div class="col-sm-3 ">
+                   {{--    {{ Form::hidden('_method', 'POST') }} --}}
+                      {{ Form::submit('XXX', array('class' => 'btn btn-small btn-danger','id'=>"search")) }}
+                    {{ Form::close() }}
+            
+            
+        {{--     <div class="col-sm-3 ">
              <button type="submit" class="btn btn-primary" id="search">Search</button>
-            </div>            
+            </div>    --}}         
           
         </div>
         
