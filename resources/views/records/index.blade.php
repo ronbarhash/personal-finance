@@ -68,13 +68,15 @@
                 </td>
                 <td class="table-text">
                   <div>{{ $record->date_of }}</div>
-                </td>
-
+                 
                 <td>
+               
+                <a class="btn btn-small btn-info pull-right" href="{{ URL::to('records/' . $record->id . '/edit') }}">Edit</a>
                     {{ Form::open(array('url' => 'records/' . $record->id, 'class' => 'pull-right')) }}
                       {{ Form::hidden('_method', 'DELETE') }}
                       {{ Form::submit('Delete', array('class' => 'btn btn-small btn-danger')) }}
                     {{ Form::close() }}
+                
                 </td>
               </tr>
             @endforeach

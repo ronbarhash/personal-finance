@@ -55,4 +55,38 @@ class RecordController extends Controller
         return Redirect::route('records.index');
 
 	}
+
+	public function edit($id) {
+
+		$record = Record::find($id);
+        return view('records.edit')
+            ->with('record',$record);
+
+	}
+
+	public function update($id)
+	{
+        $rules = array(
+			'title'       => 'required',
+			'record_type'       => 'required'			
+		);
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return Redirect::to('records/' . $id . '/edit')
+                ->withErrors($validator);
+                // ->withInput(Input::except('img_src'));
+        } else {
+            $record = Record::find($id);
+          
+			$record->title = Input::get('title');
+			$record->record_type = Input::get('record_type');
+			$record->date_of = Input::get('date_of');
+			$record->cost = Input::get('cost');
+            $record->save();
+
+            // Session::flash('message','Successfully updates Record!');
+            return Redirect::to('records');
+        }
+	}
 }
