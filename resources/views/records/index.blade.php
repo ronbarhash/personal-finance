@@ -13,7 +13,6 @@
       <div class="panel-heading">
         Records
         <div class="container">
-
           
             <div class="col-sm-3 ">
                 <div class="input-group date" data-provide="datepicker">
@@ -63,9 +62,9 @@
                 <td class="table-text">
                   <div>{{ $record->cost }}</div>
                 </td>
-                <td class="table-text datapicker">
+                {{-- <td class="table-text datapicker">
                   <div>{{ $record->record_type }}</div>
-                </td>
+                </td> --}}
                 <td class="table-text">
                   <div>{{ $record->date_of }}</div>
                  
@@ -82,6 +81,13 @@
             @endforeach
           </tbody>
         </table>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Итоги:
+            <p>Доходы: <span class="badge">${{$income}}</span></p>
+            <p>Расходы: <span class="badge">${{$expense}}</span></p>
+          </div>
+        </div>
       </div>
     </div>
    @endif

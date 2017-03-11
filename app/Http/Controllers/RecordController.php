@@ -8,21 +8,34 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Record;
 use Validator, Input, Redirect, Session; 
+use DB;
+
 class RecordController extends Controller
 {
-    function index() {
+    public function index() {
+
+    
+        $income = DB::table('records') 
+                ->where('records.record_type','=',1)
+                ->sum('records.cost');
+        $expense = DB::table('records') 
+                ->where('records.record_type','=',2)
+                ->sum('records.cost');	        	
+                	
 	    $records = Record::orderBy('id', 'asc')->get();
 	    return view('records.index' ,[
-	    'records' => $records
+	    'records' => $records,
+	    'income' => $income,
+	    'expense' => $expense
 	    ]);
+
 	}
 
 	public function create() {
 		return view('records.create');
 	}
 
-	public function store()
-	{
+	public function store()	{
         $rules = array(
 			'title'       => 'required',
 			'record_type'       => 'required'
@@ -40,7 +53,7 @@ class RecordController extends Controller
 			$record->record_type = Input::get('record_type');
 			$record->date_of = Input::get('date_of');
 			$record->cost = Input::get('cost');
-
+			$record->rate = $this->_getRate();	
 			$record->save();
 
             // redirect
@@ -64,8 +77,7 @@ class RecordController extends Controller
 
 	}
 
-	public function update($id)
-	{
+	public function update($id)	{
         $rules = array(
 			'title'       => 'required',
 			'record_type'       => 'required'			
@@ -83,10 +95,15 @@ class RecordController extends Controller
 			$record->record_type = Input::get('record_type');
 			$record->date_of = Input::get('date_of');
 			$record->cost = Input::get('cost');
+			$record->rate = $this->_getRate();	
             $record->save();
 
             // Session::flash('message','Successfully updates Record!');
             return Redirect::to('records');
         }
+	}
+
+	protected function _getRate() {
+		return 1;
 	}
 }

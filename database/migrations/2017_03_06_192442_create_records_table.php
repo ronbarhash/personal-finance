@@ -18,6 +18,7 @@ class CreateRecordsTable extends Migration
             $table->integer('record_type'); // доход =1 расход 2
             $table->date('date_of');
             $table->decimal('cost',5,2); // double
+            $table->decimal('rate',5,2); // double
         });
     }
 
