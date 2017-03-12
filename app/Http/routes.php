@@ -9,20 +9,20 @@ Route::group(['middleware' => ['web']], function () {
 	});
 	
     Route::resource('records', 'RecordController');  
-    Route::post('records/data', function(Request $request)  {
-  //  		$from = $request->input('from'); 
-		
-		// $to = $request->input('to');
 
-		// $records = DB::table('records')->where([
-                   
-  //                   ['date_of', '>', $from],
-  //                    ['date_of', '<=', $to]
-  //               ])->get();
-         var_dump($request);      	
-
-
-	   
+    Route::post('/data', function(Request $request)  {
+    	$request = $request->all();
+    	if(is_array($request)) {
+	   		$from = $request['from']; 		
+			$to = $request['to'];
+			
+			$records = DB::table('records')->whereBetween(                   
+	                  'date_of', [ $from,$to]
+	                )->get();		
+	        $records = json_encode($records);    
+	        
+        } else {$records = json_encode([]); }
+        echo $records;
 	});  
 
 });

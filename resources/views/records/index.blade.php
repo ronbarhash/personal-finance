@@ -6,20 +6,18 @@
         {{ $error }}
       </div>
     @endforeach
-<p><a href="{{ URL::route('records.create') }}" class="btn btn-success">add new</a></p>
-<!-- Текущие задачи -->
-  @if (count($records) > 0)
+<p><a href="{{ URL::route('records.create') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a></p>
+
+  {{-- @if (count($records) > 0) --}}
     <div class="panel panel-default">
       <div class="panel-heading">
-        Records
+        
         <div class="container">
-        {{ Form::open(array('url' => 'records/data' , 'class' => 'pull-right')) }}
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="col-sm-3 ">
                 <div class="input-group date" data-provide="datepicker">
                     <input type="text" class="form-control" id="from" value="{{$from}}">
                     <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
+                        <span class="glyphicon glyphicon-calendar"></span>
                     </div>
                 </div>  
             </div>
@@ -27,18 +25,14 @@
                 <div class="input-group date" data-provide="datepicker">
                     <input type="text" class="form-control" id="to" value="{{$to}}">
                     <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
+                        <span class="glyphicon glyphicon-calendar"></span>
                     </div>
                 </div>  
             </div>
-                   {{--    {{ Form::hidden('_method', 'POST') }} --}}
-                      {{ Form::submit('XXX', array('class' => 'btn btn-small btn-danger','id'=>"search")) }}
-                    {{ Form::close() }}
-            
-            
-        {{--     <div class="col-sm-3 ">
-             <button type="submit" class="btn btn-primary" id="search">Search</button>
-            </div>    --}}         
+
+            <div class="col-sm-3 ">
+             <button  class="btn btn-primary" id="search">Поиск</button>
+            </div>            
           
         </div>
         
@@ -49,54 +43,23 @@
 
           <!-- Заголовок таблицы -->
           <thead>
-            <th>record</th>
+            <th>Записи</th>
             <th>&nbsp;</th>
           </thead>
 
           <!-- Тело таблицы -->
-          <tbody>
-            @foreach ($records as $record)
-              <tr  class=" @if($record->record_type == 1) table-success
-               @else 
-               table-danger
-               @endif
-               ">
-                <!-- Имя задачи -->
-                <td class="table-text">
-                  <div>{{ $record->title }}</div>
-                </td>
-                <td class="table-text">
-                  <div>{{ $record->cost }}</div>
-                </td>
-                {{-- <td class="table-text datapicker">
-                  <div>{{ $record->record_type }}</div>
-                </td> --}}
-                <td class="table-text">
-                  <div>{{ $record->date_of }}</div>
-                 
-                <td>
-               
-                <a class="btn btn-small btn-info pull-right" href="{{ URL::to('records/' . $record->id . '/edit') }}">Edit</a>
-                    {{ Form::open(array('url' => 'records/' . $record->id, 'class' => 'pull-right')) }}
-                      {{ Form::hidden('_method', 'DELETE') }}
-                      {{ Form::submit('Delete', array('class' => 'btn btn-small btn-danger')) }}
-                    {{ Form::close() }}
-                
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
+
         </table>
         <div class="panel panel-default">
           <div class="panel-body">
-            Итоги:
-            <p>Доходы: <span class="badge">${{$income}}</span></p>
-            <p>Расходы: <span class="badge">${{$expense}}</span></p>
+            <h4>Итоги:</h4>
+            <p>Доходы: <span class="badge"> $ {{isset($income) ? $income : 0}}</span></p>
+            <p>Расходы: <span class="badge">$ {{isset($expense) ? $expense : 0}}</span></p>
           </div>
         </div>
       </div>
     </div>
-   @endif
+   {{-- @endif --}}
 
   <!-- TODO: Текущие задачи -->
 @endsection

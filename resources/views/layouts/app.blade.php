@@ -4,17 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Personal finance - Basic</title>
 
     <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="../../../public/css/bootstrap-theme.min.css" rel='stylesheet' type='text/css'>
+  
+    
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-
+    <link href="../../../public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../public/css/jquery-ui.min.css" rel="stylesheet">
+  
+    
     <style>
         body {
             font-family: 'Lato';
@@ -37,9 +38,8 @@
         <div class="container">
             <div class="navbar-header">
 
-                <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/records') }}">
-                    Personal finance List
+                    <span class='glyphicon glyphicon-credit-card'></span> Домашние финансы
                 </a>
             </div>
 
@@ -50,12 +50,14 @@
     </div> 
     
     <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="../../../public/js/jquery.js"></script>
+
+    <script src="../../../public/js/bootstrap.min.js"></script>
+    <script src="../../../public/js/jquery-ui.js"></script>
 
   <script>
   $( function() {
+    load_data();
     var dateFormat = "yy/mm/dd",
       from = $( "#from" )
         .datepicker({
@@ -75,8 +77,38 @@
       })
       .on( "change", function() {
         from.datepicker( "option", "maxDate", getDate( this ) );
-      });
- 
+      }),
+      date_of = $( "#date_of" )
+        .datepicker({
+          dateFormat: dateFormat,
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 2
+        })
+        .on( "change", function() {
+          date_of.datepicker( "option", "minDate", getDate( this ) );
+        });
+    
+    function records_data(data){
+      var data = JSON.parse(data);
+      var table = $('.task-table');
+      var r= "";   
+      var str = "";
+      table.html("");
+      
+      for(var row in data) {
+        r = data[row];
+        
+        str += "<tr> <td class='table-text'>" + r['title'] +"</td><td class='table-text'>" + r['cost'] +"</td><td class='table-text'>" + r['date_of'] +"</td><td><a class='btn btn-small btn-default pull-right' href='/records/"+r['id']+"/edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a><form action='/records/"+r['id']+"' class='pull-right' method='POST' ><input type='hidden' name='_token' value='"+ $('[name=csrf-token]').attr('content')+"'><input type='hidden' name='_method' value='DELETE'><button type='submit' class='btn btn-small btn-default'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button></form></td></tr>";
+      }
+      if( !str ) {
+          table.append("<thead><th>Записи</th><th>&nbsp;</th></thead><tr class='text-center table-text'><td> Нет данных </td></tr>");
+      } else {
+          table.append(str);        
+      }
+      
+    }
+
     function getDate( element ) {
       var date;
       try {
@@ -88,14 +120,21 @@
       return date;
     }
 
+    function load_data(){
+     
+        var from = $('#from').val(), to = $('#to').val();
+        
+        $.post('/data',
+          {from:from, to:to,_token: $('[name=csrf-token]').attr('content')},
+          records_data
+          );
 
+    }
+
+  $('#search').on('click', load_data);
 
   } );
-  $('#search').on('click', function(){
-       $.post('/records/data',{from:'02.03.2017',to:'09.03.2017'} ).done( function(data){
-        console.log(data);
-       });
-    });
+
   </script> 
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>

@@ -12,9 +12,15 @@
     <div class="form-group">
         {{ Form::label('title', 'Название') }}
         {{ Form::text('title', Input::old('title'), array('class' => 'form-control')) }} 
-
         {{ Form::label('date_of', 'Дата') }}
-        {{ Form::text('date_of', \Carbon\Carbon::now(), array('class' => 'form-control')) }} 
+        <div class="input-group">
+
+        {{ Form::text('date_of', \Carbon\Carbon::now(), array('class' => 'form-control','data-provide'=>"datepicker", 'id'=>'date_of')) }}
+            <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </div>
+        </div>
+         
 
         {{ Form::label('cost', 'Сумма') }}
         {{ Form::text('cost', Input::old('cost'), array('class' => 'form-control')) }}      

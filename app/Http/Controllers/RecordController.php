@@ -20,7 +20,6 @@ class RecordController extends Controller
 		
 		$to = Carbon::now()->formatLocalized('%Y/%m/%d'); 
 		
-
         $income = DB::table('records') 
                 ->where('records.record_type','=',1)
                 ->whereBetween('date_of', [$from, $to])
@@ -35,7 +34,10 @@ class RecordController extends Controller
                     ['date_of', '>', $from],
                      ['date_of', '<=', $to]
                 ])->get();
-	    // var_dump($records->get());
+	    // if (empty($income))
+	    // 	$income = '0';
+	    // if (empty($expense))
+	    // 	$expense = '0';
 	    return view('records.index' ,[
 	    'records' => $records,
 	    'income' => $income,
@@ -46,36 +48,7 @@ class RecordController extends Controller
 
 	}
 	public function show(Request $request) {
-		var_dump($request);
-/*
-    	$from = $request->input('from'); 
-		
-		$to = $request->input('to');
-		
 
-        $income = DB::table('records') 
-                ->where('records.record_type','=',1)
-                ->whereBetween('date_of', [$from, $to])
-                ->sum('records.cost');
-        $expense = DB::table('records') 
-                ->where('records.record_type','=',2)
-                ->whereBetween('date_of', [$from, $to])
-                ->sum('records.cost');	        	
-                	
-	    $records = DB::table('records')->where([
-                   
-                    ['date_of', '>', $from],
-                     ['date_of', '<=', $to]
-                ])->get();
-	    // var_dump($records->get());
-	    return view('records.index' ,[
-	    'records' => $records,
-	    'income' => $income,
-	    'expense' => $expense,
-	    'from' => $from,
-	    'to' => $to
-	    ]);
-*/
 	}
 
 	public function create() {
@@ -103,8 +76,6 @@ class RecordController extends Controller
 			$record->rate = $this->_getRate();	
 			$record->save();
 
-            // redirect
-            //Session::flash('message', 'Successfully created event!');
             return Redirect::to('records');
         }
 	}
@@ -145,7 +116,6 @@ class RecordController extends Controller
 			$record->rate = $this->_getRate();	
             $record->save();
 
-            // Session::flash('message','Successfully updates Record!');
             return Redirect::to('records');
         }
 	}
