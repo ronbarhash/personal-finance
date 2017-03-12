@@ -11,18 +11,17 @@
    
     <div class="form-group">
         {{ Form::label('title', 'Название') }}
-        {{ Form::text('title', Input::old('title'), array('class' => 'form-control')) }} 
+        {{ Form::text('title', Input::old('title'), array('class' => 'form-control', 'placeholder'=>'Название')) }} 
         {{ Form::label('date_of', 'Дата') }}
         <div class="input-group">
-
-            {{ Form::text('date_of', \Carbon\Carbon::now(), array('class' => 'form-control','data-provide'=>"datepicker", 'id'=>'date_of')) }}
+            {{ Form::text('date_of', \Carbon\Carbon::now()->formatLocalized('%Y/%m/%d'), array('class' => 'form-control','data-provide'=>"datepicker", 'id'=>'date_of')) }}
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </div>
         </div>         
 
         {{ Form::label('cost', 'Сумма') }}
-        {{ Form::text('cost', Input::old('cost'), array('class' => 'form-control')) }}      
+        {{ Form::text('cost', Input::old('cost'), array('class' => 'form-control', 'placeholder'=>'0.00')) }}      
     </div>
     <div class="form-group">
         {{ Form::label('record_type', 'Тип') }}
@@ -30,7 +29,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::submit('Add event', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit('Добавить', array('class' => 'btn btn-primary')) }}
     </div>
 
 {{ Form::close() }}
