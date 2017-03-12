@@ -71,9 +71,9 @@ class RecordController extends Controller
 			$record = new Record;
 			$record->title = Input::get('title');
 			$record->record_type = Input::get('record_type');
-			$record->date_of = Input::get('date_of');
-			$record->cost = Input::get('cost');
-			$record->rate = $this->_getRate();	
+			$record->date_of = Input::get('date_of');			
+			$record->rate = $this->_getRate();
+			$record->cost = Input::get('cost') * $record->rate ;	
 			$record->save();
 
             return Redirect::to('records');
