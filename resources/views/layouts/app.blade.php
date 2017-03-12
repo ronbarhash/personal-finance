@@ -94,12 +94,16 @@
       var table = $('.task-table');
       var r= "";   
       var str = "";
+      var type = "";
       table.html("");
       
       for(var row in data) {
         r = data[row];
-        
-        str += "<tr> <td class='table-text'>" + r['title'] +"</td><td class='table-text'>" + r['cost'] +"</td><td class='table-text'>" + r['date_of'] +"</td><td><a class='btn btn-small btn-default pull-right' href='/records/"+r['id']+"/edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a><form action='/records/"+r['id']+"' class='pull-right' method='POST' ><input type='hidden' name='_token' value='"+ $('[name=csrf-token]').attr('content')+"'><input type='hidden' name='_method' value='DELETE'><button type='submit' class='btn btn-small btn-default'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button></form></td></tr>";
+        if(r['record_type']==1)
+          type = "table-success";
+        else
+          type = "table-danger";
+        str += "<tr class='"+type+"'> <td class='table-text'>" + r['title'] +"</td><td class='table-text'>" + r['cost'] +"</td><td class='table-text'>" + r['date_of'] +"</td><td><a class='btn btn-small btn-default pull-right' href='/records/"+r['id']+"/edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a><form action='/records/"+r['id']+"' class='pull-right' method='POST' ><input type='hidden' name='_token' value='"+ $('[name=csrf-token]').attr('content')+"'><input type='hidden' name='_method' value='DELETE'><button type='submit' class='btn btn-small btn-default'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button></form></td></tr>";
       }
       if( !str ) {
           table.append("<thead><th>Записи</th><th>&nbsp;</th></thead><tr class='text-center table-text'><td> Нет данных </td></tr>");
