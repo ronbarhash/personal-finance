@@ -15,7 +15,7 @@ class RecordController extends Controller
 {
     public function index(Request $request) {
     	
-
+    	
     	$from = Carbon::now()->subMonth()->formatLocalized('%Y/%m/%d'); 
 		
 		$to = Carbon::now()->formatLocalized('%Y/%m/%d'); 
@@ -34,10 +34,7 @@ class RecordController extends Controller
                     ['date_of', '>', $from],
                      ['date_of', '<=', $to]
                 ])->get();
-	    // if (empty($income))
-	    // 	$income = '0';
-	    // if (empty($expense))
-	    // 	$expense = '0';
+
 	    return view('records.index' ,[
 	    'records' => $records,
 	    'income' => $income,
@@ -73,7 +70,7 @@ class RecordController extends Controller
 			$record->record_type = Input::get('record_type');
 			$record->date_of = Input::get('date_of');			
 			$record->rate = $this->_getRate();
-			$record->cost = Input::get('cost') * $record->rate ;	
+			$record->cost = Input::get('cost') / $record->rate ;	
 			$record->save();
 
             return Redirect::to('records');
@@ -120,7 +117,20 @@ class RecordController extends Controller
         }
 	}
 
-	protected function _getRate() {
-		return 1;
+	public function _getRate() {
+
+		$url = "https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5";
+        $curl = curl_init($url);
+        if ( $curl ){   
+                
+            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);            
+            $page = curl_exec($curl);  
+            curl_close($curl);
+            unset($curl);
+ 
+            $xml = new \SimpleXMLElement($page);
+            return (float)$xml->row[2]->exchangerate['sale'][0];
+        }
+		
 	}
 }

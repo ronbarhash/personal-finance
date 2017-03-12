@@ -54,7 +54,8 @@
           <div class="panel-body">
             <h4>Итоги:</h4>
             <p>Доходы: <span class="badge"> $ {{isset($income) ? $income : 0}}</span></p>
-            <p>Расходы: <span class="badge">$ {{isset($expense) ? $expense : 0}}</span></p>
+            <p>Расходы: <span class="badge"> $ {{isset($expense) ? $expense : 0}}</span></p>
+            <p>Остаток: <span class="badge"> $ {{$income - $expense}}</span></p>
           </div>
         </div>
       </div>
