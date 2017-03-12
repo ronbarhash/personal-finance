@@ -64,7 +64,7 @@ class RecordController extends Controller
 			return Redirect::to('records/create')
 				->withErrors($validator);				
 		} else {
-			// store
+			
 			$record = new Record;
 			$record->title = Input::get('title');
 			$record->record_type = Input::get('record_type');
@@ -101,8 +101,7 @@ class RecordController extends Controller
 
         if ($validator->fails()) {
             return Redirect::to('records/' . $id . '/edit')
-                ->withErrors($validator);
-                // ->withInput(Input::except('img_src'));
+                ->withErrors($validator);                
         } else {
             $record = Record::find($id);
           
@@ -122,7 +121,7 @@ class RecordController extends Controller
 		$url = "https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5";
         $curl = curl_init($url);
         if ( $curl ){   
-                
+
             curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);            
             $page = curl_exec($curl);  
             curl_close($curl);

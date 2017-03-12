@@ -8,7 +8,7 @@
     @endforeach
 <p><a href="{{ URL::route('records.create') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a></p>
 
-  {{-- @if (count($records) > 0) --}}
+  
     <div class="panel panel-default">
       <div class="panel-heading">
         
@@ -60,7 +60,6 @@
         </div>
       </div>
     </div>
-   {{-- @endif --}}
-
-  <!-- TODO: Текущие задачи -->
+   
+  
 @endsection
